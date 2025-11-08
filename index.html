@@ -39,12 +39,13 @@
         .search-box {
             display: flex;
             gap: 0.5rem;
+            position: relative;
         }
         .search-box input {
             padding: 0.5rem;
             border: none;
             border-radius: 4px;
-            width: 200px;
+            width: 250px;
         }
         .search-box button {
             padding: 0.5rem 1rem;
@@ -53,6 +54,18 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+        }
+        .breadcrumb {
+            background: #e9ecef;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .breadcrumb a {
+            color: #1e3c72;
+            text-decoration: none;
+        }
+        .breadcrumb span {
+            color: #666;
         }
         .hero {
             text-align: center;
@@ -120,6 +133,17 @@
             background: #f8f9fa;
             border-left: 4px solid #1e3c72;
         }
+        .back-button {
+            background: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
         .footer {
             background: #2c3e50;
             color: white;
@@ -146,10 +170,16 @@
             </div>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search articles...">
-                <button onclick="searchArticles()">Search</button>
+                <button onclick="performSearch()">Search</button>
             </div>
         </div>
     </nav>
+
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a>
+        </div>
+    </div>
 
     <div class="container">
         <section class="hero">
@@ -206,32 +236,17 @@
     </footer>
 
     <script>
-        function searchArticles() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            // Simple search logic - matches article titles
-            const articles = {
-                'nfp': 'nfp-trading-guide.html',
-                'non farm payroll': 'nfp-trading-guide.html',
-                'risk': 'risk-management-basics.html',
-                'risk management': 'risk-management-basics.html',
-                'management': 'risk-management-basics.html',
-                'about': 'about.html',
-                'disclaimer': 'disclaimer.html',
-                'home': 'index.html'
-            };
-            
-            if (articles[searchTerm]) {
-                window.location.href = articles[searchTerm];
-            } else {
-                alert('Article not found. Try: "nfp", "risk", "about"');
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
             }
         }
         
         // Allow pressing Enter to search
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                searchArticles();
+                performSearch();
             }
         });
     </script>
