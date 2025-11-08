@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position Size Calculator - TraderInsight</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Arial', sans-serif; 
+            line-height: 1.6; 
+            color: #333;
+            background: #f8f9fa;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        nav {
+            background: #2c3e50;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .search-box input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .search-box button {
+            padding: 0.5rem 1rem;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .breadcrumb {
+            background: #e9ecef;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .breadcrumb a {
+            color: #1e3c72;
+            text-decoration: none;
+        }
+        .breadcrumb span {
+            color: #666;
+        }
+        .calculator-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin: 1.5rem 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .input-group input:focus, .input-group select:focus {
+            border-color: #1e3c72;
+            outline: none;
+        }
+        .calculate-btn {
+            background: #1e3c72;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin: 1rem 0;
+            transition: background 0.3s ease;
+        }
+        .calculate-btn:hover {
+            background: #2a5298;
+        }
+        .results {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #1e3c72;
+            display: none;
+        }
+        .result-item {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .result-value {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.2rem;
+        }
+        .back-button {
+            background: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        .risk-warning {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>TraderInsight</h1>
+            <p>Educate • Inform • Empower Traders</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="disclaimer.html">Disclaimer</a>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search articles...">
+                <button onclick="performSearch()">Search</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> > <a href="tools.html">Trading Tools</a> > <span>Position Calculator</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="javascript:history.back()" class="back-button">← Back to Previous Page</a>
+
+        <div class="calculator-container">
+            <h1>Position Size Calculator</h1>
+            <p>Calculate optimal position size based on your risk management rules.</p>
+            
+            <div class="risk-warning">
+                <strong>Risk Management Principle:</strong> Never risk more than 1-2% of your account on a single trade.
+            </div>
+
+            <div class="input-group">
+                <label for="accountSize">Account Size ($)</label>
+                <input type="number" id="accountSize" placeholder="e.g., 10000" min="0" step="100">
+            </div>
+            
+            <div class="input-group">
+                <label for="riskPercent">Risk Percentage (%)</label>
+                <input type="number" id="riskPercent" placeholder="e.g., 1" min="0.1" max="10" step="0.1" value="1">
+            </div>
+            
+            <div class="input-group">
+                <label for="entryPrice">Entry Price</label>
+                <input type="number" id="entryPrice" placeholder="e.g., 1.2050" min="0" step="0.0001">
+            </div>
+            
+            <div class="input-group">
+                <label for="stopLoss">Stop Loss Price</label>
+                <input type="number" id="stopLoss" placeholder="e.g., 1.2000" min="0" step="0.0001">
+            </div>
+
+            <div class="input-group">
+                <label for="instrument">Instrument Type</label>
+                <select id="instrument">
+                    <option value="forex">Forex (Standard Lot = 100,000 units)</option>
+                    <option value="stock">Stocks</option>
+                    <option value="crypto">Cryptocurrency</option>
+                </select>
+            </div>
+
+            <button class="calculate-btn" onclick="calculatePosition()">Calculate Position Size</button>
+
+            <div class="results" id="results">
+                <h3>Position Calculation Results</h3>
+                <div class="result-item">
+                    <span>Dollar Risk:</span>
+                    <span class="result-value" id="dollarRisk">-</span>
+                </div>
+                <div class="result-item">
+                    <span>Price Risk (Pips/Points):</span>
+                    <span class="result-value" id="priceRisk">-</span>
+                </div>
+                <div class="result-item">
+                    <span>Position Size (Units):</span>
+                    <span class="result-value" id="positionSize">-</span>
+                </div>
+                <div class="result-item">
+                    <span>Lot Size:</span>
+                    <span class="result-value" id="lotSize">-</span>
+                </div>
+                <div class="result-item">
+                    <span>Risk per Pip/Point:</span>
+                    <span class="result-value" id="riskPerPip">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TraderInsight. Educational content only. Not financial advice.</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculatePosition() {
+            const accountSize = parseFloat(document.getElementById('accountSize').value);
+            const riskPercent = parseFloat(document.getElementById('riskPercent').value);
+            const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            const instrument = document.getElementById('instrument').value;
+
+            if (!accountSize || !riskPercent || !entryPrice || !stopLoss) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Calculate dollar risk
+            const dollarRisk = accountSize * (riskPercent / 100);
+            
+            // Calculate price risk
+            const priceRisk = Math.abs(entryPrice - stopLoss);
+            
+            // Calculate position size based on instrument
+            let positionSize, lotSize, riskPerPip;
+            
+            if (instrument === 'forex') {
+                // For forex, calculate pip value
+                const pipValue = 10; // $10 per pip for standard lot
+                const pips = priceRisk * 10000; // Convert to pips (4 decimal places)
+                positionSize = (dollarRisk / pips) * 100000;
+                lotSize = (positionSize / 100000).toFixed(2);
+                riskPerPip = (dollarRisk / pips).toFixed(2);
+            } else {
+                // For stocks/crypto
+                positionSize = dollarRisk / priceRisk;
+                lotSize = positionSize.toFixed(2);
+                riskPerPip = (dollarRisk / priceRisk).toFixed(2);
+            }
+
+            // Update results
+            document.getElementById('dollarRisk').textContent = '$' + dollarRisk.toFixed(2);
+            document.getElementById('priceRisk').textContent = priceRisk.toFixed(4) + (instrument === 'forex' ? ' pips' : ' points');
+            document.getElementById('positionSize').textContent = Math.round(positionSize).toLocaleString() + ' units';
+            document.getElementById('lotSize').textContent = lotSize + (instrument === 'forex' ? ' lots' : ' shares');
+            document.getElementById('riskPerPip').textContent = '$' + riskPerPip + (instrument === 'forex' ? ' per pip' : ' per point');
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Allow Enter key in input fields
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculatePosition();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
