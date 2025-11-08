@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Trading Sessions Clock - TraderInsight</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Arial', sans-serif; 
+            line-height: 1.6; 
+            color: #333;
+            background: #f8f9fa;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        nav {
+            background: #2c3e50;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .search-box input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .search-box button {
+            padding: 0.5rem 1rem;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .breadcrumb {
+            background: #e9ecef;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+        }
+        .breadcrumb a {
+            color: #1e3c72;
+            text-decoration: none;
+        }
+        .breadcrumb span {
+            color: #666;
+        }
+        .sessions-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .current-session {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .session-closed {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+        .session-overlap {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+        }
+        .clock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .clock-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .clock-card.active {
+            border-color: #4caf50;
+            background: #e8f5e8;
+            transform: scale(1.05);
+        }
+        .clock-card.overlap {
+            border-color: #ff9800;
+            background: #fff3e0;
+        }
+        .time-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 1rem 0;
+        }
+        .session-status {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .status-open { background: #4caf50; color: white; }
+        .status-closed { background: #f44336; color: white; }
+        .status-overlap { background: #ff9800; color: white; }
+        .back-button {
+            background: #6c757d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        .volatility-info {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        .world-map {
+            text-align: center;
+            margin: 2rem 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>TraderInsight</h1>
+            <p>Educate • Inform • Empower Traders</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="disclaimer.html">Disclaimer</a>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search articles...">
+                <button onclick="performSearch()">Search</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> > <a href="tools.html">Trading Tools</a> > <span>Live Trading Sessions</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="javascript:history.back()" class="back-button">← Back to Previous Page</a>
+
+        <div class="sessions-container">
+            <h1>🌍 Live Trading Sessions Clock</h1>
+            <p>Track global market hours in real-time. Know when volatility is highest.</p>
+            
+            <div id="currentSession" class="current-session">
+                <h2>🕒 Current Session: <span id="activeSession">Loading...</span></h2>
+                <div class="time-display" id="currentTime">Loading...</div>
+                <div id="sessionMessage">Checking market status...</div>
+            </div>
+
+            <div class="world-map">
+                <h3>🗺️ Global Trading Sessions</h3>
+                <p>Forex markets are open 24/5, but volatility varies by session</p>
+            </div>
+
+            <div class="clock-grid">
+                <!-- Sydney Session -->
+                <div class="clock-card" id="sydneyCard">
+                    <h3>🇦🇺 Sydney Session</h3>
+                    <div class="time-display" id="sydneyTime">--:-- --</div>
+                    <div>5 PM - 2 AM EST</div>
+                    <div class="session-status" id="sydneyStatus">Closed</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        Volatility: Low
+                    </div>
+                </div>
+
+                <!-- Tokyo Session -->
+                <div class="clock-card" id="tokyoCard">
+                    <h3>🇯🇵 Tokyo Session</h3>
+                    <div class="time-display" id="tokyoTime">--:-- --</div>
+                    <div>7 PM - 4 AM EST</div>
+                    <div class="session-status" id="tokyoStatus">Closed</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        Volatility: Medium
+                    </div>
+                </div>
+
+                <!-- London Session -->
+                <div class="clock-card" id="londonCard">
+                    <h3>🇬🇧 London Session</h3>
+                    <div class="time-display" id="londonTime">--:-- --</div>
+                    <div>3 AM - 12 PM EST</div>
+                    <div class="session-status" id="londonStatus">Closed</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        Volatility: High
+                    </div>
+                </div>
+
+                <!-- New York Session -->
+                <div class="clock-card" id="newyorkCard">
+                    <h3>🇺🇸 New York Session</h3>
+                    <div class="time-display" id="newyorkTime">--:-- --</div>
+                    <div>8 AM - 5 PM EST</div>
+                    <div class="session-status" id="newyorkStatus">Closed</div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        Volatility: High
+                    </div>
+                </div>
+            </div>
+
+            <div class="volatility-info">
+                <h3>📊 Trading Session Guide</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                    <div>
+                        <strong>Asian Session (Sydney/Tokyo)</strong>
+                        <ul>
+                            <li>Best for: AUD, JPY, NZD pairs</li>
+                            <li>Volatility: Low to Medium</li>
+                            <li>Strategy: Range trading</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>London Session</strong>
+                        <ul>
+                            <li>Best for: EUR, GBP, CHF pairs</li>
+                            <li>Volatility: High</li>
+                            <li>Strategy: Breakout trading</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>New York Session</strong>
+                        <ul>
+                            <li>Best for: USD, CAD pairs</li>
+                            <li>Volatility: Very High</li>
+                            <li>Strategy: News trading</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>Overlap Sessions</strong>
+                        <ul>
+                            <li>London/NY: 8 AM - 12 PM EST</li>
+                            <li>Highest volatility</li>
+                            <li>Best trading opportunities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TraderInsight. Educational content only. Not financial advice.</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateAllClocks() {
+            const now = new Date();
+            
+            // Timezone offsets (hours)
+            const timezones = {
+                sydney: 11, // AEDT
+                tokyo: 9,   // JST
+                london: 0,  // GMT
+                newyork: -5 // EST
+            };
+
+            // Update each clock
+            updateClock('sydney', timezones.sydney);
+            updateClock('tokyo', timezones.tokyo);
+            updateClock('london', timezones.london);
+            updateClock('newyork', timezones.newyork);
+            
+            // Update current session status
+            updateSessionStatus(now);
+            
+            // Update current time display
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { 
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function updateClock(city, offset) {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const cityTime = new Date(utc + (3600000 * offset));
+            
+            const timeString = cityTime.toLocaleTimeString('en-US', { 
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            document.getElementById(city + 'Time').textContent = timeString;
+        }
+
+        function updateSessionStatus(now) {
+            const estHour = now.getUTCHours() - 5; // Convert to EST
+            if (estHour < 0) estHour += 24;
+            
+            const sessions = {
+                sydney: { open: 17, close: 2, nextDay: true }, // 5 PM - 2 AM EST
+                tokyo: { open: 19, close: 4, nextDay: true },  // 7 PM - 4 AM EST
+                london: { open: 3, close: 12 },                // 3 AM - 12 PM EST
+                newyork: { open: 8, close: 17 }                // 8 AM - 5 PM EST
+            };
+
+            let activeSession = '';
+            let sessionMessage = '';
+            let currentSessionElement = document.getElementById('currentSession');
+            
+            // Check overlaps first (most important)
+            const londonNYOverlap = estHour >= 8 && estHour < 12; // 8 AM - 12 PM EST
+            const asianOverlap = estHour >= 19 || estHour < 2;    // 7 PM - 2 AM EST
+            
+            if (londonNYOverlap) {
+                activeSession = 'LONDON/NEW YORK OVERLAP';
+                sessionMessage = '🔥 HIGHEST VOLATILITY - Best trading opportunities';
+                currentSessionElement.className = 'current-session session-overlap';
+                
+                document.getElementById('londonCard').classList.add('overlap');
+                document.getElementById('newyorkCard').classList.add('overlap');
+                updateSessionCard('london', 'status-overlap', 'Overlap');
+                updateSessionCard('newyork', 'status-overlap', 'Overlap');
+                
+            } else if (asianOverlap) {
+                activeSession = 'ASIAN SESSION OVERLAP';
+                sessionMessage = 'Medium volatility - Good for AUD/JPY pairs';
+                currentSessionElement.className = 'current-session session-overlap';
+                
+            } else {
+                // Check individual sessions
+                for (const [session, hours] of Object.entries(sessions)) {
+                    let isOpen = false;
+                    
+                    if (hours.nextDay) {
+                        // Session crosses midnight
+                        isOpen = estHour >= hours.open || estHour < hours.close;
+                    } else {
+                        isOpen = estHour >= hours.open && estHour < hours.close;
+                    }
+                    
+                    if (isOpen) {
+                        activeSession = session.toUpperCase() + ' SESSION';
+                        sessionMessage = getSessionMessage(session);
+                        currentSessionElement.className = 'current-session';
+                        updateSessionCard(session, 'status-open', 'Open');
+                    } else {
+                        updateSessionCard(session, 'status-closed', 'Closed');
+                    }
+                }
+            }
+            
+            // If no session is open, show next session
+            if (!activeSession) {
+                activeSession = 'MARKETS CLOSED';
+                sessionMessage = 'Next session: ' + getNextSession(estHour);
+                currentSessionElement.className = 'current-session session-closed';
+            }
+            
+            document.getElementById('activeSession').textContent = activeSession;
+            document.getElementById('sessionMessage').textContent = sessionMessage;
+        }
+
+        function updateSessionCard(session, statusClass, statusText) {
+            const card = document.getElementById(session + 'Card');
+            const statusElement = document.getElementById(session + 'Status');
+            
+            // Remove all status classes
+            card.classList.remove('active', 'overlap');
+            statusElement.className = 'session-status';
+            
+            // Add current status
+            statusElement.classList.add(statusClass);
+            statusElement.textContent = statusText;
+            
+            if (statusClass === 'status-open') {
+                card.classList.add('active');
+            }
+        }
+
+        function getSessionMessage(session) {
+            const messages = {
+                sydney: 'Low volatility - Good for range trading',
+                tokyo: 'Medium volatility - JPY pairs active',
+                london: 'High volatility - EUR/GBP pairs moving',
+                newyork: 'High volatility - USD pairs and news events'
+            };
+            return messages[session] || 'Market session active';
+        }
+
+        function getNextSession(currentHour) {
+            if (currentHour < 3) return 'London Session (3 AM EST)';
+            if (currentHour < 8) return 'New York Session (8 AM EST)';
+            if (currentHour < 17) return 'Sydney Session (5 PM EST)';
+            return 'Tokyo Session (7 PM EST)';
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // Initialize clocks and update every second
+        updateAllClocks();
+        setInterval(updateAllClocks, 1000);
+        
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>
