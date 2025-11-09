@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position Size Calculator - TraderInsight</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">TraderInsight</a></h1>
+                    <span class="tagline">Professional Trading Education</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="../index.html">Home</a>
+                    <a href="index.html" class="active">Trading Tools</a>
+                    <a href="../education/index.html">Education</a>
+                    <a href="../analysis.html">Market Analysis</a>
+                    <a href="../resources.html">Resources</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="container">
+                <a href="../index.html">Home</a> / <a href="index.html">Trading Tools</a> / <span>Position Calculator</span>
+            </div>
+        </div>
+
+        <!-- Calculator -->
+        <section class="container" style="padding: var(--space-xl) 0;">
+            <div class="container-sm">
+                <h1>Position Size Calculator</h1>
+                <p>Calculate optimal trade size based on your risk management parameters.</p>
+                
+                <div class="calculator">
+                    <div class="input-group">
+                        <label for="accountSize">Account Balance ($)</label>
+                        <input type="number" id="accountSize" placeholder="e.g., 10000" min="0" step="100">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="riskPercent">Risk Percentage (%)</label>
+                        <input type="number" id="riskPercent" placeholder="e.g., 1" min="0.1" max="10" step="0.1" value="1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="entryPrice">Entry Price</label>
+                        <input type="number" id="entryPrice" placeholder="e.g., 1.2050" min="0" step="0.0001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="stopLoss">Stop Loss Price</label>
+                        <input type="number" id="stopLoss" placeholder="e.g., 1.2000" min="0" step="0.0001">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="instrument">Instrument Type</label>
+                        <select id="instrument">
+                            <option value="forex">Forex (Standard Lot = 100,000 units)</option>
+                            <option value="stock">Stocks</option>
+                            <option value="crypto">Cryptocurrency</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="calculatePosition()" style="width: 100%;">Calculate Position Size</button>
+
+                    <div class="results" id="results" style="display: none;">
+                        <h3>Calculation Results</h3>
+                        <div class="result-item">
+                            <span>Dollar Risk:</span>
+                            <span class="result-value" id="dollarRisk">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Price Risk:</span>
+                            <span class="result-value" id="priceRisk">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Position Size:</span>
+                            <span class="result-value" id="positionSize">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Lot Size:</span>
+                            <span class="result-value" id="lotSize">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Risk per Pip/Point:</span>
+                            <span class="result-value" id="riskPerPip">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: var(--space-lg);">
+                    <h3>Risk Management Principles</h3>
+                    <ul>
+                        <li>Never risk more than 1-2% of your account on a single trade</li>
+                        <li>Always use stop losses to define your risk before entering a trade</li>
+                        <li>Consider position size in relation to your overall portfolio</li>
+                        <li>Regularly review and adjust your risk parameters</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Trading Tools</h4>
+                    <a href="position-calculator.html">Position Calculator</a>
+                    <a href="trading-sessions.html">Market Sessions</a>
+                    <a href="economic-calendar.html">Economic Calendar</a>
+                    <a href="trading-journal.html">Trading Journal</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Education</h4>
+                    <a href="../education/risk-management.html">Risk Management</a>
+                    <a href="../education/trading-psychology.html">Trading Psychology</a>
+                    <a href="../education/market-analysis.html">Market Analysis</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../disclaimer.html">Disclaimer</a>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 TraderInsight. All rights reserved. Educational content only. Not financial advice.</p>
+                <p>Last updated: January 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function calculatePosition() {
+            const accountSize = parseFloat(document.getElementById('accountSize').value);
+            const riskPercent = parseFloat(document.getElementById('riskPercent').value);
+            const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            const instrument = document.getElementById('instrument').value;
+
+            if (!accountSize || !riskPercent || !entryPrice || !stopLoss) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Calculate dollar risk
+            const dollarRisk = accountSize * (riskPercent / 100);
+            
+            // Calculate price risk
+            const priceRisk = Math.abs(entryPrice - stopLoss);
+            
+            // Calculate position size based on instrument
+            let positionSize, lotSize, riskPerPip;
+            
+            if (instrument === 'forex') {
+                const pipValue = 10; // $10 per pip for standard lot
+                const pips = priceRisk * 10000; // Convert to pips (4 decimal places)
+                positionSize = (dollarRisk / pips) * 100000;
+                lotSize = (positionSize / 100000).toFixed(2);
+                riskPerPip = (dollarRisk / pips).toFixed(2);
+            } else {
+                positionSize = dollarRisk / priceRisk;
+                lotSize = positionSize.toFixed(2);
+                riskPerPip = (dollarRisk / priceRisk).toFixed(2);
+            }
+
+            // Update results
+            document.getElementById('dollarRisk').textContent = '$' + dollarRisk.toFixed(2);
+            document.getElementById('priceRisk').textContent = priceRisk.toFixed(4) + (instrument === 'forex' ? ' pips' : ' points');
+            document.getElementById('positionSize').textContent = Math.round(positionSize).toLocaleString() + ' units';
+            document.getElementById('lotSize').textContent = lotSize + (instrument === 'forex' ? ' lots' : ' shares');
+            document.getElementById('riskPerPip').textContent = '$' + riskPerPip + (instrument === 'forex' ? ' per pip' : ' per point');
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
+        }
+
+        // Allow Enter key in input fields
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculatePosition();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
