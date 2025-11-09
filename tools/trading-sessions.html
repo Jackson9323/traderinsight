@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Trading Sessions - TraderInsight</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .session-status { display: inline-block; padding: 0.4rem 1.2rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
+        .status-open { background: var(--accent-green); color: white; }
+        .status-closed { background: var(--light-text); color: white; }
+        .status-overlap { background: var(--accent-orange); color: white; }
+        .clock-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg); margin: var(--space-xl) 0; }
+        .clock-card { text-align: center; padding: var(--space-lg); }
+        .time-display { font-size: 2rem; font-weight: bold; color: var(--primary-blue); margin: var(--space-md) 0; font-family: var(--font-mono); }
+        .current-session { background: var(--primary-blue); color: white; padding: var(--space-lg); border-radius: var(--radius-md); margin: var(--space-lg) 0; text-align: center; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">TraderInsight</a></h1>
+                    <span class="tagline">Professional Trading Education</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="../index.html">Home</a>
+                    <a href="index.html" class="active">Trading Tools</a>
+                    <a href="../education/index.html">Education</a>
+                    <a href="../analysis.html">Market Analysis</a>
+                    <a href="../resources.html">Resources</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <div class="container">
+                <a href="../index.html">Home</a> / <a href="index.html">Trading Tools</a> / <span>Live Trading Sessions</span>
+            </div>
+        </div>
+
+        <section class="container" style="padding: var(--space-xl) 0;">
+            <h1>Live Trading Sessions</h1>
+            <p>Monitor worldwide market hours and trading session overlaps in real-time.</p>
+            
+            <div id="currentSession" class="current-session">
+                <h2>Current Session: <span id="activeSession">Loading...</span></h2>
+                <div class="time-display" id="currentTime">Loading...</div>
+                <div id="sessionMessage">Checking market status...</div>
+            </div>
+
+            <div class="clock-grid">
+                <div class="card" id="sydneyCard">
+                    <h3>Sydney Session</h3>
+                    <div class="time-display" id="sydneyTime">--:-- --</div>
+                    <div style="color: var(--light-text); margin: var(--space-sm) 0;">17:00 - 02:00 EST</div>
+                    <div class="session-status" id="sydneyStatus">Closed</div>
+                    <div style="margin-top: var(--space-sm); font-size: 0.9rem; color: var(--light-text);">Volatility: Low</div>
+                </div>
+
+                <div class="card" id="tokyoCard">
+                    <h3>Tokyo Session</h3>
+                    <div class="time-display" id="tokyoTime">--:-- --</div>
+                    <div style="color: var(--light-text); margin: var(--space-sm) 0;">19:00 - 04:00 EST</div>
+                    <div class="session-status" id="tokyoStatus">Closed</div>
+                    <div style="margin-top: var(--space-sm); font-size: 0.9rem; color: var(--light-text);">Volatility: Medium</div>
+                </div>
+
+                <div class="card" id="londonCard">
+                    <h3>London Session</h3>
+                    <div class="time-display" id="londonTime">--:-- --</div>
+                    <div style="color: var(--light-text); margin: var(--space-sm) 0;">03:00 - 12:00 EST</div>
+                    <div class="session-status" id="londonStatus">Closed</div>
+                    <div style="margin-top: var(--space-sm); font-size: 0.9rem; color: var(--light-text);">Volatility: High</div>
+                </div>
+
+                <div class="card" id="newyorkCard">
+                    <h3>New York Session</h3>
+                    <div class="time-display" id="newyorkTime">--:-- --</div>
+                    <div style="color: var(--light-text); margin: var(--space-sm) 0;">08:00 - 17:00 EST</div>
+                    <div class="session-status" id="newyorkStatus">Closed</div>
+                    <div style="margin-top: var(--space-sm); font-size: 0.9rem; color: var(--light-text);">Volatility: High</div>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: var(--space-xl);">
+                <div class="card">
+                    <h3>Trading Session Guide</h3>
+                    <p><strong>Asian Session (Sydney/Tokyo)</strong><br>Optimal for: AUD, JPY, NZD pairs<br>Volatility: Low to Medium<br>Strategy: Range trading</p>
+                    <p><strong>London Session</strong><br>Optimal for: EUR, GBP, CHF pairs<br>Volatility: High<br>Strategy: Breakout trading</p>
+                </div>
+                <div class="card">
+                    <h3>Session Overlaps</h3>
+                    <p><strong>London/New York Overlap</strong><br>08:00 - 12:00 EST<br>Highest volatility period<br>Maximum trading opportunities</p>
+                    <p><strong>Asian Session Overlap</strong><br>19:00 - 02:00 EST<br>Medium volatility<br>Good for AUD/JPY pairs</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Trading Tools</h4>
+                    <a href="position-calculator.html">Position Calculator</a>
+                    <a href="trading-sessions.html">Market Sessions</a>
+                    <a href="economic-calendar.html">Economic Calendar</a>
+                    <a href="trading-journal.html">Trading Journal</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Education</h4>
+                    <a href="../education/risk-management.html">Risk Management</a>
+                    <a href="../education/trading-psychology.html">Trading Psychology</a>
+                    <a href="../education/market-analysis.html">Market Analysis</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../disclaimer.html">Disclaimer</a>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 TraderInsight. All rights reserved. Educational content only. Not financial advice.</p>
+                <p>Last updated: January 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function updateAllClocks() {
+            const now = new Date();
+            
+            const timezones = {
+                sydney: 11, tokyo: 9, london: 0, newyork: -5
+            };
+
+            updateClock('sydney', timezones.sydney);
+            updateClock('tokyo', timezones.tokyo);
+            updateClock('london', timezones.london);
+            updateClock('newyork', timezones.newyork);
+            
+            updateSessionStatus(now);
+            
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { 
+                hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+        }
+
+        function updateClock(city, offset) {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const cityTime = new Date(utc + (3600000 * offset));
+            
+            const timeString = cityTime.toLocaleTimeString('en-US', { 
+                hour12: true, hour: '2-digit', minute: '2-digit'
+            });
+            
+            document.getElementById(city + 'Time').textContent = timeString;
+        }
+
+        function updateSessionStatus(now) {
+            const estHour = now.getUTCHours() - 5;
+            if (estHour < 0) estHour += 24;
+            
+            const sessions = {
+                sydney: { open: 17, close: 2, nextDay: true },
+                tokyo: { open: 19, close: 4, nextDay: true },
+                london: { open: 3, close: 12 },
+                newyork: { open: 8, close: 17 }
+            };
+
+            let activeSession = '';
+            let sessionMessage = '';
+            
+            const londonNYOverlap = estHour >= 8 && estHour < 12;
+            const asianOverlap = estHour >= 19 || estHour < 2;
+            
+            if (londonNYOverlap) {
+                activeSession = 'LONDON / NEW YORK OVERLAP';
+                sessionMessage = 'Highest volatility period - Maximum trading opportunities';
+                updateSessionStatusUI('london', 'status-overlap', 'Overlap');
+                updateSessionStatusUI('newyork', 'status-overlap', 'Overlap');
+            } else if (asianOverlap) {
+                activeSession = 'ASIAN SESSION OVERLAP';
+                sessionMessage = 'Medium volatility - Asian currency pairs active';
+            } else {
+                for (const [session, hours] of Object.entries(sessions)) {
+                    let isOpen = hours.nextDay ? 
+                        (estHour >= hours.open || estHour < hours.close) : 
+                        (estHour >= hours.open && estHour < hours.close);
+                    
+                    if (isOpen) {
+                        activeSession = session.toUpperCase() + ' SESSION';
+                        sessionMessage = getSessionMessage(session);
+                        updateSessionStatusUI(session, 'status-open', 'Open');
+                    } else {
+                        updateSessionStatusUI(session, 'status-closed', 'Closed');
+                    }
+                }
+            }
+            
+            if (!activeSession) {
+                activeSession = 'MARKETS CLOSED';
+                sessionMessage = 'Next session: ' + getNextSession(estHour);
+            }
+            
+            document.getElementById('activeSession').textContent = activeSession;
+            document.getElementById('sessionMessage').textContent = sessionMessage;
+        }
+
+        function updateSessionStatusUI(session, statusClass, statusText) {
+            const statusElement = document.getElementById(session + 'Status');
+            statusElement.className = 'session-status ' + statusClass;
+            statusElement.textContent = statusText;
+        }
+
+        function getSessionMessage(session) {
+            const messages = {
+                sydney: 'Low volatility period - Range trading strategies',
+                tokyo: 'Medium volatility - JPY currency pairs active',
+                london: 'High volatility - European markets active',
+                newyork: 'High volatility - US markets and news events'
+            };
+            return messages[session] || 'Trading session active';
+        }
+
+        function getNextSession(currentHour) {
+            if (currentHour < 3) return 'London Session (03:00 EST)';
+            if (currentHour < 8) return 'New York Session (08:00 EST)';
+            if (currentHour < 17) return 'Sydney Session (17:00 EST)';
+            return 'Tokyo Session (19:00 EST)';
+        }
+
+        setInterval(updateAllClocks, 1000);
+        updateAllClocks();
+    </script>
+</body>
+</html>
