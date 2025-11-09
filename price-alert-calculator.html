@@ -1,37 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Alert Calculator - TraderInsight</title>
-    <style>
-        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .calculator { background: #f5f5f5; padding: 20px; border-radius: 8px; }
-        input, button { padding: 10px; margin: 5px; }
-        button { background: #1e3c72; color: white; border: none; cursor: pointer; }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <h1>Price Alert Calculator</h1>
-    <p>Calculate distance between current and target prices.</p>
-    
-    <div class="calculator">
-        <input type="number" id="currentPrice" placeholder="Current Price">
-        <input type="number" id="targetPrice" placeholder="Target Price">
-        <button onclick="calculate()">Calculate</button>
-        <div id="result"></div>
-    </div>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">TraderInsight</a></h1>
+                    <span class="tagline">Professional Trading Education</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="../index.html">Home</a>
+                    <a href="index.html" class="active">Trading Tools</a>
+                    <a href="../education/index.html">Education</a>
+                    <a href="../analysis.html">Market Analysis</a>
+                    <a href="../resources.html">Resources</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <div class="container">
+                <a href="../index.html">Home</a> / <a href="index.html">Trading Tools</a> / <span>Price Alert Calculator</span>
+            </div>
+        </div>
+
+        <section class="container" style="padding: var(--space-xl) 0;">
+            <div class="container-sm">
+                <h1>Price Alert Calculator</h1>
+                <p>Calculate distance to your target price and set mental alerts for your trades.</p>
+                
+                <div class="calculator">
+                    <div class="input-group">
+                        <label for="currentPrice">Current Price</label>
+                        <input type="number" id="currentPrice" placeholder="e.g., 1.2050" step="0.0001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="targetPrice">Target Price</label>
+                        <input type="number" id="targetPrice" placeholder="e.g., 1.2150" step="0.0001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="instrument">Instrument Type</label>
+                        <select id="instrument">
+                            <option value="forex">Forex (4 decimal places)</option>
+                            <option value="stocks">Stocks (2 decimal places)</option>
+                            <option value="crypto">Cryptocurrency (2 decimal places)</option>
+                            <option value="indices">Indices (1 decimal place)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="calculateAlert()" style="width: 100%;">Calculate Price Alert</button>
+
+                    <div class="results" id="results" style="display: none;">
+                        <h3>Alert Calculation Results</h3>
+                        <div class="result-item">
+                            <span>Distance:</span>
+                            <span class="result-value" id="distance">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Distance in Pips/Points:</span>
+                            <span class="result-value" id="pips">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Percentage Move:</span>
+                            <span class="result-value" id="percentage">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Price Direction:</span>
+                            <span class="result-value" id="direction">-</span>
+                        </div>
+                        
+                        <div style="margin-top: var(--space-lg); padding: var(--space-md); background: #fff3cd; border-radius: var(--radius-sm);">
+                            <strong>Trading Insight:</strong> 
+                            <span id="tradingTip">Set mental alerts at key support/resistance levels</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: var(--space-lg);">
+                    <h3>Price Alert Strategies</h3>
+                    <div class="grid grid-2">
+                        <div>
+                            <h4>Support & Resistance Levels</h4>
+                            <ul>
+                                <li>Set alerts at previous swing highs/lows</li>
+                                <li>Monitor key psychological levels</li>
+                                <li>Watch for breakout/breakdown levels</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Fibonacci Levels</h4>
+                            <ul>
+                                <li>38.2% retracement levels</li>
+                                <li>61.8% golden ratio levels</li>
+                                <li>Extension levels for profit targets</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Trading Tools</h4>
+                    <a href="position-calculator.html">Position Calculator</a>
+                    <a href="trading-sessions.html">Market Sessions</a>
+                    <a href="economic-calendar.html">Economic Calendar</a>
+                    <a href="trading-journal.html">Trading Journal</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Education</h4>
+                    <a href="../education/risk-management.html">Risk Management</a>
+                    <a href="../education/trading-psychology.html">Trading Psychology</a>
+                    <a href="../education/market-analysis.html">Market Analysis</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../disclaimer.html">Disclaimer</a>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 TraderInsight. All rights reserved. Educational content only. Not financial advice.</p>
+                <p>Last updated: January 2025</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        function calculate() {
-            const current = parseFloat(document.getElementById('currentPrice').value);
-            const target = parseFloat(document.getElementById('targetPrice').value);
-            const distance = target - current;
-            const percentage = ((distance / current) * 100).toFixed(2);
+        function calculateAlert() {
+            const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value);
+            const instrument = document.getElementById('instrument').value;
             
-            document.getElementById('result').innerHTML = `
-                <p>Distance: ${distance.toFixed(4)}</p>
-                <p>Percentage: ${percentage}%</p>
-            `;
+            if (!currentPrice || !targetPrice) {
+                alert('Please enter both current and target prices');
+                return;
+            }
+
+            const distance = targetPrice - currentPrice;
+            const percentage = ((distance / currentPrice) * 100).toFixed(2);
+            
+            let pips;
+            switch(instrument) {
+                case 'forex':
+                    pips = (distance * 10000).toFixed(1);
+                    break;
+                case 'stocks':
+                    pips = (distance * 100).toFixed(1);
+                    break;
+                case 'crypto':
+                    pips = (distance * 100).toFixed(1);
+                    break;
+                case 'indices':
+                    pips = (distance * 10).toFixed(1);
+                    break;
+            }
+
+            document.getElementById('distance').textContent = distance.toFixed(4);
+            document.getElementById('pips').textContent = pips + (instrument === 'forex' ? ' pips' : ' points');
+            document.getElementById('percentage').textContent = percentage + '%';
+            document.getElementById('direction').textContent = distance > 0 ? 'UP' : 'DOWN';
+
+            // Trading tip based on calculation
+            let tip = '';
+            if (Math.abs(percentage) > 5) {
+                tip = 'Large price move expected. Consider smaller position size and wider stops.';
+            } else if (Math.abs(percentage) < 1) {
+                tip = 'Small price move. Suitable for scalp trading strategies with tight stops.';
+            } else {
+                tip = 'Moderate price move. Ideal for swing trading positions with standard risk management.';
+            }
+            document.getElementById('tradingTip').textContent = tip;
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
         }
+
+        // Allow Enter key in input fields
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateAlert();
+                }
+            });
+        });
     </script>
 </body>
 </html>
