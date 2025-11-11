@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Foundations of Financial Markets - TraderInsight</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .lesson-navigation {
+            background: var(--background);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin: var(--space-lg) 0;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-md);
+        }
+        .lesson-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .lesson-section {
+            background: var(--card-bg);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            margin: var(--space-lg) 0;
+            border-left: 4px solid var(--primary-blue);
+        }
+        .key-concept {
+            background: #e3f2fd;
+            padding: var(--space-md);
+            border-radius: var(--radius-sm);
+            margin: var(--space-md) 0;
+            border-left: 4px solid var(--primary-blue);
+        }
+        .interactive-exercise {
+            background: #f3e5f5;
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            margin: var(--space-lg) 0;
+            text-align: center;
+        }
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            margin: var(--space-lg) 0;
+            padding: var(--space-md);
+            background: var(--background);
+            border-radius: var(--radius-md);
+        }
+        .progress-item {
+            text-align: center;
+            flex: 1;
+        }
+        .progress-item.active {
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../index.html">TraderInsight</a></h1>
+                    <span class="tagline">Professional Trading Education</span>
+                </div>
+                <nav class="main-nav">
+                    <a href="../../index.html">Home</a>
+                    <a href="../../tools/index.html">Trading Tools</a>
+                    <a href="../index.html" class="active">Education</a>
+                    <a href="../../analysis.html">Market Analysis</a>
+                    <a href="../../resources.html">Resources</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <div class="container">
+                <a href="../../index.html">Home</a> / <a href="../index.html">Education</a> / <span>Module 1: Foundations</span>
+            </div>
+        </div>
+
+        <section class="container">
+            <div class="lesson-navigation">
+                <div class="nav-buttons">
+                    <a href="../index.html" class="btn btn-outline">← Back to Curriculum</a>
+                    <button class="btn btn-primary" onclick="markComplete()">Mark Lesson Complete</button>
+                    <a href="lesson2.html" class="btn btn-outline">Next Lesson →</a>
+                </div>
+            </div>
+
+            <div class="progress-tracker">
+                <div class="progress-item active">1. What Are Markets</div>
+                <div class="progress-item">2. Why Markets Exist</div>
+                <div class="progress-item">3. Market Types</div>
+                <div class="progress-item">4. Global Sessions</div>
+                <div class="progress-item">5. Participants</div>
+            </div>
+
+            <div class="lesson-content">
+                <h1>Module 1: Foundations of Financial Markets</h1>
+                <p><strong>🎯 GOAL:</strong> Understand what markets are and why they exist</p>
+
+                <div class="lesson-section">
+                    <h2>1.1 What Are Financial Markets?</h2>
+                    
+                    <div class="key-concept">
+                        <h3>📖 Definition</h3>
+                        <p><strong>Financial markets</strong> are platforms where buyers and sellers trade financial instruments like stocks, bonds, currencies, and derivatives.</p>
+                    </div>
+
+                    <h3>The Marketplace Analogy</h3>
+                    <p>Think of financial markets as a giant global marketplace where instead of buying apples or cars, people trade:</p>
+                    <ul>
+                        <li><strong>Currencies</strong> (US Dollars for Euros)</li>
+                        <li><strong>Ownership</strong> (Shares of companies)</li>
+                        <li><strong>Debt</strong> (Bonds - loans to governments or companies)</li>
+                        <li><strong>Commodities</strong> (Gold, oil, wheat)</li>
+                    </ul>
+
+                    <div class="key-concept">
+                        <h3>💡 Key Insight</h3>
+                        <p>Markets exist to facilitate <strong>price discovery</strong> - determining the fair value of assets through supply and demand.</p>
+                    </div>
+
+                    <h3>Market Functions</h3>
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h4>Capital Formation</h4>
+                            <p>Companies raise money by selling shares to investors</p>
+                        </div>
+                        <div class="card">
+                            <h4>Risk Transfer</h4>
+                            <p>Investors can hedge risks using derivatives and other instruments</p>
+                        </div>
+                        <div class="card">
+                            <h4>Liquidity Provision</h4>
+                            <p>Markets allow quick buying and selling of assets</p>
+                        </div>
+                        <div class="card">
+                            <h4>Price Discovery</h4>
+                            <p>Collective wisdom determines asset prices</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-exercise">
+                    <h3>🧠 Knowledge Check</h3>
+                    <p><strong>Question:</strong> What is the primary purpose of financial markets?</p>
+                    <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin: var(--space-md) 0;">
+                        <button class="btn btn-outline" onclick="checkAnswer(1)">A) Make people rich quickly</button>
+                        <button class="btn btn-outline" onclick="checkAnswer(2)">B) Facilitate trading and price discovery</button>
+                        <button class="btn btn-outline" onclick="checkAnswer(3)">C) Create complex financial products</button>
+                    </div>
+                    <div id="answer-result" style="margin-top: var(--space-md); font-weight: bold;"></div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>1.2 Why Markets Exist</h2>
+                    
+                    <h3>Three Primary Reasons</h3>
+                    <div class="grid grid-3">
+                        <div class="card">
+                            <h4>💰 Capital Allocation</h4>
+                            <p>Money flows to where it's most productive. Growing companies get funding, investors get returns.</p>
+                        </div>
+                        <div class="card">
+                            <h4>🛡️ Risk Management</h4>
+                            <p>Businesses and investors can protect against adverse price movements.</p>
+                        </div>
+                        <div class="card">
+                            <h4>📈 Speculation</h4>
+                            <p>Traders attempt to profit from price changes, providing liquidity to markets.</p>
+                        </div>
+                    </div>
+
+                    <div class="key-concept">
+                        <h3>🌍 Global Economic Engine</h3>
+                        <p>Without financial markets, economic growth would slow dramatically. Companies couldn't raise capital efficiently, and international trade would be much more difficult.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-navigation">
+                    <div class="nav-buttons">
+                        <a href="../index.html" class="btn btn-outline">← Back to Curriculum</a>
+                        <button class="btn btn-primary" onclick="markComplete()">Mark Lesson Complete</button>
+                        <a href="lesson2.html" class="btn btn-outline">Next: Why Markets Exist →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Trading Tools</h4>
+                    <a href="../../tools/position-calculator.html">Position Calculator</a>
+                    <a href="../../tools/trading-sessions.html">Market Sessions</a>
+                    <a href="../../tools/economic-calendar.html">Economic Calendar</a>
+                    <a href="../../tools/trading-journal.html">Trading Journal</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Education</h4>
+                    <a href="../foundations/index.html">Foundations</a>
+                    <a href="../market-structure/index.html">Market Structure</a>
+                    <a href="../technical-analysis/index.html">Technical Analysis</a>
+                    <a href="../risk-management/index.html">Risk Management</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="../../about.html">About Us</a>
+                    <a href="../../disclaimer.html">Disclaimer</a>
+                    <a href="../../privacy.html">Privacy Policy</a>
+                    <a href="../../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 TraderInsight. All rights reserved. Educational content only. Not financial advice.</p>
+                <p>Last updated: January 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function checkAnswer(choice) {
+            const result = document.getElementById('answer-result');
+            if (choice === 2) {
+                result.textContent = '✅ Correct! Markets facilitate trading and price discovery.';
+                result.style.color = 'var(--accent-green)';
+            } else {
+                result.textContent = '❌ Try again! Markets primarily exist to facilitate trading and determine prices.';
+                result.style.color = 'var(--warning)';
+            }
+        }
+
+        function markComplete() {
+            alert('Lesson marked as complete! Progress saved.');
+            // In a real implementation, this would save to localStorage or a database
+        }
+    </script>
+</body>
+</html>
